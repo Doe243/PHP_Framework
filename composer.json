@@ -1,0 +1,17 @@
+{
+    "name": "asus/php_framework",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Doe243",
+            "email": "johndoe71@outlook.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
