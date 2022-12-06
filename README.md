@@ -2,7 +2,7 @@
 This is a home-made framework developed in PHP
 
 #Installation
-Composer install
+  Composer install
 
 #Execute migration
-php migrations.php
+  php migrations.php
