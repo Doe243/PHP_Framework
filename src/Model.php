@@ -9,6 +9,7 @@ abstract class Model
     public const RULE_MIN = "min";
     public const RULE_MAX = "max";
     public const RULE_MATCH = "match";
+    public const RULE_UNIQUE = "unique";
 
     public function loadData($data)
     {
@@ -22,6 +23,16 @@ abstract class Model
     }
 
     abstract public function rules(): array;
+
+    public function labels(): array
+    {
+        return [];
+    }
+
+    public function getLabel($attribute)
+    {
+        return $this->labels()[$attribute] ?? $attribute;
+    }
 
     public array $errors = [];
 
@@ -61,8 +72,42 @@ abstract class Model
                 }
                 
                 if ($ruleName === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
+
+                    $rule['match'] = $this->getLabel($rule['match']);
                     
                     $this->addError($attribute, self::RULE_MATCH, $rule);
+                }
+
+                if ($ruleName === self::RULE_UNIQUE) {
+                    
+                    $className = $rule['class'];
+
+                    $uniqueAttr = $rule['attribute'] ?? $attribute;
+
+                    $tableName = $className::tableName();
+
+                    $statement = Application::$app->db->prepare("
+                            
+                        SELECT * FROM $tableName
+                        WHERE $uniqueAttr = :attr
+                    ");
+
+                    $statement->bindValue(":attr", $value);
+
+                    $statement->execute();
+
+                    $record = $statement->fetchObject();
+
+                    if ($record) {
+                        
+                        $this->addError(
+
+                            $attribute, self::RULE_UNIQUE, 
+
+                            [
+                                'field' => $this->getLabel($attribute)
+                            ]);
+                    }
                 }
             }
         }
@@ -92,6 +137,7 @@ abstract class Model
             self::RULE_MIN => 'Min length of this field must be {min}',
             self::RULE_MAX => 'Max length of this field must be {max}',
             self::RULE_MATCH => 'This field must be the same as {match}',
+            self::RULE_UNIQUE => 'Record with this {field} already exists',
         ];
     }
 
