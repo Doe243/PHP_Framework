@@ -1,3 +1,8 @@
+<?
+
+/** @var $model \App\models\User */
+
+ ?>
 
 <h1>Create an account</h1>
 

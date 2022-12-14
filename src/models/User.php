@@ -3,9 +3,6 @@
 namespace App\models;
 
 use App\DbModel;
-use App\Model;
-
-
 
 class User extends DbModel
 {
@@ -27,9 +24,19 @@ class User extends DbModel
     
     public string $confirmPassword = '';
 
-    public function tableName(): string
+    public static function tableName(): string
     {
         return 'users';
+    }
+
+    public static function primaryKey(): string
+    {
+        return 'id';
+    }
+
+    public function getDisplayName(): string
+    {
+        return $this->firstname.' '.$this->lastname;
     }
 
     public function save()
@@ -102,5 +109,5 @@ class User extends DbModel
             'confirmPassword' => 'Confirm password',
         ];
     }
-
+ 
 }

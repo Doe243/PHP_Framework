@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\models\User;
 use App\controllers\AuthController;
 use App\controllers\SiteController;
 
@@ -13,6 +14,8 @@ $dotenv->load();
 
 
 $config = [
+    
+    'userClass' => User::class,
 
     'db' => [
         'dsn' => $_ENV['DB_DSN'],
@@ -36,5 +39,7 @@ $app->router->post("/login", [AuthController::class, 'login']);
 $app->router->get("/register", [AuthController::class, 'register']);
 
 $app->router->post("/register", [AuthController::class, 'register']);
+
+$app->router->get("/logout", [AuthController::class, 'logout']);
 
 $app->run();

@@ -25,15 +25,11 @@ class Database
 
         $appliedMigrations = $this->getAppliedMigrations();
 
-        //Utils::preEcho($appliedMigrations);
-
         $newMigrations = [];
 
         $files = scandir(Application::$ROOT_DIR.'/src/migrations');
 
         $toAppliedMigrations = array_diff($files, $appliedMigrations);
-
-        //Utils::preEcho($toAppliedMigrations);
 
         foreach ($toAppliedMigrations as $migration) {
 
@@ -43,13 +39,10 @@ class Database
                 continue;
             }
             
-            //Utils::preEcho($migration);
             
             require_once Application::$ROOT_DIR.'/src/migrations/'.$migration;
 
             $className = pathinfo($migration, PATHINFO_FILENAME);
-
-            //Utils::preEcho($className);
 
             $instance = new $className();
 

@@ -52,8 +52,6 @@ class Router
         }
 
         if (is_array($callback)) {
-
-            //utils::preEcho($callback);
             
             Application::$app->controller = new $callback[0]();
 
@@ -63,7 +61,7 @@ class Router
         }
 
 
-        return call_user_func($callback, $this->request);
+        return call_user_func($callback, $this->request, $this->response);
         
     }
     /**
