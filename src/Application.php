@@ -7,6 +7,8 @@ class Application
 
     public static string $ROOT_DIR;
 
+    public string $layout = 'base';
+    
     public string $userClass;
 
     public Router $router;
@@ -25,7 +27,7 @@ class Application
 
     public static Application $app;
 
-    public Controller $controller;
+    public ?Controller $controller = null;
 
 
     public function __construct($roothPath, array $config)
@@ -63,7 +65,18 @@ class Application
 
     public function run() {
 
-        echo $this->router->resolve();
+        try {
+
+            echo $this->router->resolve();
+
+        } 
+        
+        catch (\Exception $e) {
+
+            $this->response->setStatusCode(403);
+
+            echo $this->router->renderViewException('403_forbidden');
+        }
     } 
 
 

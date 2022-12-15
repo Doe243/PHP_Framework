@@ -2,15 +2,21 @@
 
 namespace App\controllers;
 
-use App\Application;
 use App\Request;
-use App\Controller;
-use App\models\LoginForm;
-use App\Models\User;
 use App\Response;
+use App\Controller;
+use App\Application;
+use App\Models\User;
+use App\models\LoginForm;
+use App\middlewares\AuthMiddleware;
 
 class AuthController extends Controller
 {
+    public function __construct() {
+        
+        $this->registerMiddleware(new AuthMiddleware(['profile']));
+    }
+    
     /**
      * This function help us to log in our user
      */
@@ -42,11 +48,22 @@ class AuthController extends Controller
         ]);
     }
 
+
+    /**
+     * This function help us to display user profile
+     */
+
+    public function profile()
+    {
+        return $this->render('profile');
+    }
+
     /**
      * This function helps us to register a user
      *
      * @param Request $request
      */
+
     public function register(Request $request)
     {   
         $errors = [];
@@ -84,6 +101,14 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * This function help user who are connected to logout
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     */
+    
     public function logout(Request $request, Response $response)
     {
         Application::$app->logout();

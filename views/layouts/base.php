@@ -26,12 +26,12 @@ use App\Application;
             <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                <a class="nav-link active" href="/">Home
-                    <span class="visually-hidden">(current)</span>
-                </a>
+                  <a class="nav-link active" href="/">Home
+                      <span class="visually-hidden">(current)</span>
+                  </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/contact">Contact</a>
+                  <a class="nav-link" href="/contact">Contact</a>
                 </li>
             </ul>
           <?php if(Application::isGuest()):  ?>
@@ -48,11 +48,23 @@ use App\Application;
             <?php else: ?>
               
               <ul class="navbar-nav ml-auto">
+
                 <li class="nav-item">
-                <a class="nav-link" href="/logout">Welcome <?php echo Application::$app->user->getDisplayName() ?>
-                  (Logout)
-                </a>
+
+                  <a class="nav-link" href="/profile">
+                    Profile
+                  </a>
+
                 </li>
+
+                <li class="nav-item">
+
+                  <a class="nav-link" href="/logout">Welcome <?php echo Application::$app->user->getDisplayName() ?>
+                    (Logout)
+                  </a>
+
+                </li>
+
             </ul>
             
             <?php endif; ?>
